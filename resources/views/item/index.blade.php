@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', '商品一覧')
+@section('title', '飲食店一覧')
 
 @section('content_header')
-    <h1>商品一覧</h1>
+    <h1>飲食店一覧</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">商品一覧</h3>
+                    <h3 class="card-title">飲食店一覧</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
                             <div class="input-group-append">
@@ -24,10 +24,12 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>名前</th>
-                                <th>種別</th>
-                                <th>詳細</th>
+                                <th></th>
+                                <th>店名</th>
+                                <th>カテゴリ</th>
+                                <th>住所</th>
+                                <th>TEL</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,6 +39,8 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
+                                    <td>03-1234-5678</td>
+                                    <td>編集</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -54,4 +54,15 @@ class ItemController extends Controller
 
         return view('item.add');
     }
+
+    /**
+     * 詳細
+     */
+    public function detail()
+    {
+        // 商品一覧取得
+        $items = Item::all();
+
+        return view('item.detail', compact('items'));
+    }
 }
