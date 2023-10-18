@@ -29,9 +29,9 @@ Route::prefix('items')->group(function () {
 });
 
 // 詳細、編集、削除
-Route::prefix('detail')->group(function () {
-    Route::get('/', [App\Http\Controllers\ItemController::class, 'detail']);
-    Route::get('/edit', [App\Http\Controllers\ItemController::class, 'edit']);
-    Route::post('/edit', [App\Http\Controllers\ItemController::class, 'edit']);
-    // TODO:削除
+Route::prefix('detail/{id}')->group(function () {
+    Route::get('/', [App\Http\Controllers\ItemController::class, 'detail'])->name('/detail/{id}');
+    Route::get('/edit', [App\Http\Controllers\ItemController::class, 'edit'])->name('/detail/{id}/edit');
+    Route::post('/edit', [App\Http\Controllers\ItemController::class, 'edit'])->name('/detail/{id}/edit');
+    Route::get('/delete', [App\Http\Controllers\ItemController::class, 'delete'])->name('/detail/{id}/delete');
 });

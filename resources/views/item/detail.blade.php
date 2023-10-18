@@ -1,49 +1,55 @@
 @extends('adminlte::page')
 
-@section('title', '変数：店名')
+@section('title', '店舗詳細')
 
 @section('content_header')
-    <h1>変数：店名</h1>
+    <div class="detail-header clearfix">
+        <div class="float-left mx-4 my-2">
+            <h1>{{ $item->name }}</h1>
+            <button type="button" class="btn btn-lg btn-primary" disabled>{{ $item->category->name }}</button>
+        </div>
+        <div class="float-right">
+            <button type="button" class="btn btn-outline-secondary">編集</button>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-md-10">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                       @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                       @endforeach
-                    </ul>
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        @isset ($item->image)
+                        <img src="{{ $item->image }}" class="card-img-top" alt="...">
+                        @else
+                        <img src="https://www.templatebank.com/images/creators/preview/088_0146_L.jpg" class="card-img-top" alt="...">
+                        @endisset
+                    </div>
                 </div>
-            @endif
-
-            <div class="card card-primary">
-                <form method="POST">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="name">店名</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="名前">
+                <div class="col">
+                    <div class="album-info">
+                        <div class="card-body my-3">
+                            <ul>
+                                <li class="font-weight-bold fs-2 list-unstyled">{{ $item->name }}</li>
+                                <li class="fs-4 list-unstyled">{{ $item->address }}</li></a>
+                                <li class="list-unstyled">{{ $item->tel }}</li>
+                                <a href="#"><li class="list-unstyled">{{ $item->ex_link }}</li></a>
+                            </ul>
                         </div>
-
-                        <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="種別">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="detail">詳細</label>
-                            <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
+                        <div class="card shadow-sm px-5">
+                            @isset ($item->memo)
+                            <p class="card-text py-5">{{ $item->memo }}</p>
+                            @else
+                            <p class="card-text py-5">お店の詳細はありません</p>
+                            @endisset
                         </div>
                     </div>
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">登録</button>
-                    </div>
-                </form>
+                </div>
             </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary">ピン留めする</button>
         </div>
     </div>
 @stop

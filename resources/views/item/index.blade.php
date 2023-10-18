@@ -24,23 +24,21 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>店名</th>
+                                <th>ピン留め</th>
                                 <th>カテゴリ</th>
+                                <th>店名</th>
                                 <th>住所</th>
                                 <th>TEL</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($items as $item)
-                                <tr>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->type }}</td>
-                                    <td>{{ $item->detail }}</td>
-                                    <td>03-1234-5678</td>
-                                    <td>編集</td>
+                                <tr>        
+                                    <td>{{ $item->pin }}</td>
+                                    <td>{{ $item->category->name }}</td>
+                                    <td><a href="{{ route('/detail/{id}', ['id'=>$item->id]) }}">{{ $item->name }}</a></td>
+                                    <td>{{ $item->address }}</td>
+                                    <td>{{ $item->tel }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

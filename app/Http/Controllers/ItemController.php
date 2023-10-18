@@ -24,7 +24,7 @@ class ItemController extends Controller
     public function index()
     {
         // 商品一覧取得
-        $items = Item::all();
+        $items = Item::orderBy('address')->get();
 
         return view('item.index', compact('items'));
     }
@@ -58,11 +58,10 @@ class ItemController extends Controller
     /**
      * 詳細
      */
-    public function detail()
+    public function detail($id)
     {
-        // 商品一覧取得
-        $items = Item::all();
-
-        return view('item.detail', compact('items'));
+        // 詳細店舗の取得
+        $item = Item::find($id);
+        return view('item.detail', compact('item'));
     }
 }

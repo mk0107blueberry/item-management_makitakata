@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Item extends Model
 {
@@ -33,4 +34,8 @@ class Item extends Model
      */
     protected $casts = [
     ];
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }
