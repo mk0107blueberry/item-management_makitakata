@@ -42,6 +42,13 @@ class ItemController extends Controller
 
         // POSTリクエストのとき
         if ($request->isMethod('post')) {
+            
+            //POSTされた画像ファイルデータ取得しbase64でエンコードする
+            $image = null;
+            if (!empty($request->image)) {
+                $image = "data:image/png;base64,". base64_encode(file_get_contents($request->image->getRealPath()));
+            }
+
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
@@ -60,8 +67,10 @@ class ItemController extends Controller
                 'tel' => $request->tel,
                 'ex_link' => $request->ex_link,
                 'memo' => $request->memo,
+                'image' => $image,
             ]);
 
+            $request->session()->flash('message', 'お店を登録しました');
             return redirect('/items');
         }
 

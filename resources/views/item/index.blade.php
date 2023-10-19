@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+    @if(session('message'))
+    <div class="alert alert-primary">{{session('message')}}</div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card">

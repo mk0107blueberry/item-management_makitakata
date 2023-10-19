@@ -34,14 +34,18 @@
                                 <li class="font-weight-bold fs-2 list-unstyled">{{ $item->name }}</li>
                                 <li class="fs-4 list-unstyled">{{ $item->address }}</li></a>
                                 <li class="list-unstyled">{{ $item->tel }}</li>
-                                <a href="#"><li class="list-unstyled">{{ $item->ex_link }}</li></a>
+                                @isset ($item->ex_link)
+                                <a href="{{ $item->ex_link }}" target="_blank"><li class="list-unstyled">外部サイトへ</li></a>
+                                @else
+                                <li class="list-unstyled text-secondary">外部サイトの登録はありません</li>
+                                @endisset
                             </ul>
                         </div>
                         <div class="card shadow-sm px-5">
                             @isset ($item->memo)
                             <p class="card-text py-5">{{ $item->memo }}</p>
                             @else
-                            <p class="card-text py-5">お店の詳細はありません</p>
+                            <p class="card-text py-5 text-secondary">メモはありません</p>
                             @endisset
                         </div>
                     </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('pin' ,10)->nullable();
             $table->string('name', 100);
-            $table->text('image')->nullable();
+            $table->longText('image')->nullable();
             $table->string('address', 255)->nullable();
             $table->string('tel', 30)->nullable();
             $table->text('ex_link')->nullable();

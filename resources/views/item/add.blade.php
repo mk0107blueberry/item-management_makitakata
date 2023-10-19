@@ -20,7 +20,7 @@
             @endif
 
             <div class="register">
-                <form method="POST">
+                <form method="POST" enctype='multipart/form-data'>
                 @csrf
                     <div class="form-group">
                         <label for="exampleFormControlInput1">店名<span class="font-weight-light"> *必須</span></label>
@@ -54,7 +54,7 @@
                         <label for="exampleFormControlFile1">お店の画像を登録する</label>
                         <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1">
                     </div>
-                    <div class="card-footer">
+                    <div class="submit-button text-center">
                         <button type="submit" class="btn btn-primary">登録</button>
                     </div>
                 </form>
