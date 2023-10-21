@@ -9,6 +9,8 @@
 @section('content')
     @if(session('message'))
     <div class="alert alert-primary">{{session('message')}}</div>
+    @elseif(session('delete-message'))
+    <div class="alert alert-danger">{{session('delete-message')}}</div>
     @endif
     <div class="row">
         <div class="col-12">
@@ -39,7 +41,7 @@
                                 <tr>        
                                     <td>{{ $item->pin }}</td>
                                     <td>{{ $item->category->name }}</td>
-                                    <td><a href="{{ route('/detail/{id}', ['id'=>$item->id]) }}">{{ $item->name }}</a></td>
+                                    <td><a href="{{ route('detail', ['id'=>$item->id]) }}">{{ $item->name }}</a></td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->tel }}</td>
                                 </tr>

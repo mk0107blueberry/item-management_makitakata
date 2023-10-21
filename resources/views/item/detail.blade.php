@@ -6,10 +6,10 @@
     <div class="detail-header clearfix">
         <div class="float-left mx-4 my-2">
             <h1>{{ $item->name }}</h1>
-            <button type="button" class="btn btn-lg btn-primary" disabled>{{ $item->category->name }}</button>
+            <button type="button" class="btn btn-info" disabled>{{ $item->category->name }}</button>
         </div>
         <div class="float-right">
-            <button type="button" class="btn btn-outline-secondary">編集</button>
+        <a href="{{ route('detail.edit', ['id'=>$item->id]) }}"><button type="button" class="btn btn-outline-secondary">編集</button></a>
         </div>
     </div>
 @stop
@@ -23,7 +23,7 @@
                         @isset ($item->image)
                         <img src="{{ $item->image }}" class="card-img-top" alt="...">
                         @else
-                        <img src="https://www.templatebank.com/images/creators/preview/088_0146_L.jpg" class="card-img-top" alt="...">
+                        <img src="{{ config('default_image.default_image') }}" class="card-img-top" alt="...">
                         @endisset
                     </div>
                 </div>

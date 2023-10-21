@@ -44,8 +44,8 @@ class ItemController extends Controller
         if ($request->isMethod('post')) {
             
             //POSTされた画像ファイルデータ取得しbase64でエンコードする
-            $image = null;
-            if (!empty($request->image)) {
+            $image = $request->image;
+            if (!empty($image)) {
                 $image = "data:image/png;base64,". base64_encode(file_get_contents($request->image->getRealPath()));
             }
 
@@ -78,12 +78,70 @@ class ItemController extends Controller
     }
 
     /**
-     * 詳細
+     * 店舗詳細
      */
     public function detail($id)
     {
-        // 詳細店舗の取得
+        // 店舗の取得
         $item = Item::find($id);
         return view('item.detail', compact('item'));
+    }
+
+    /**
+     * 店舗編集画面
+     */
+    public function edit($id)
+    {
+        // 店舗とカテゴリーの取得
+        $item = Item::find($id);
+        $categories = Category::all();
+        return view('item.edit', compact('item', 'categories'));
+    }
+
+    /**
+     * 店舗更新
+     */
+    public function update(Request $request, $id)
+    {
+            $item = Item::find($id);
+
+            //POSTされた画像ファイルデータ取得しbase64でエンコードする
+            $image = $request->image;
+            if (!empty($image)) {
+                $image = "data:image/png;base64,". base64_encode(file_get_contents($request->image->getRealPath()));
+            }
+
+            $this->validate($request, [
+                'name' => 'required|max:100',
+                'category' => 'required',
+                'address' => 'nullable|max:255',
+                'tel' => 'nullable|max:30',
+                'ex_link' => 'nullable|url',
+            ]);
+
+            $item->name = $request->name;
+            $item->category_id = $request->category;
+            $item->address = $request->address;
+            $item->tel = $request->tel;
+            $item->ex_link = $request->ex_link;
+            $item->memo = $request->memo;
+            $item->image = $image;
+            $item->save();
+
+            $request->session()->flash('message', 'お店の情報を更新しました');
+            return redirect('/items');
+    }
+
+    /**
+     * 店舗削除
+     */
+    public function destroy(Request $request, $id)
+    {
+            $item = Item::find($id);
+
+            $item->delete();
+
+            $request->session()->flash('delete-message', 'お店の情報を削除しました');
+            return redirect('/items');
     }
 }
