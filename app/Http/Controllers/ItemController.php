@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\User;
 
 class ItemController extends Controller
 {
@@ -28,8 +29,9 @@ class ItemController extends Controller
     public function index()
     {
         // 飲食店一覧取得
-        $items = Item::orderBy('address')->get();
-
+        $items = Item::orderBy('address')
+        ->where('user_id', auth()->id())
+        ->get();
         return view('item.index', compact('items'));
     }
 
@@ -84,7 +86,14 @@ class ItemController extends Controller
     {
         // 店舗の取得
         $item = Item::find($id);
-        return view('item.detail', compact('item'));
+
+        // ユーザーIDが一致しているか判定
+        $login_user = auth()->id();
+        if ($item->user_id === $login_user) {
+            return view('item.detail', compact('item'));
+        } else {
+            abort(403, '閲覧権限がありません');
+        }
     }
 
     /**
@@ -95,7 +104,14 @@ class ItemController extends Controller
         // 店舗とカテゴリーの取得
         $item = Item::find($id);
         $categories = Category::all();
-        return view('item.edit', compact('item', 'categories'));
+
+        // ユーザーIDが一致しているか判定
+        $login_user = auth()->id();
+        if ($item->user_id === $login_user) {
+            return view('item.edit', compact('item', 'categories'));
+        } else {
+            abort(403, '閲覧権限がありません');
+        }
     }
 
     /**
@@ -144,4 +160,22 @@ class ItemController extends Controller
             $request->session()->flash('delete-message', 'お店の情報を削除しました');
             return redirect('/items');
     }
+
+    /**
+     * ピン留め ON/OFF
+     */
+    public function pin($id)
+    {
+        $item = Item::find($id);
+
+        if($item->pin === null) {
+            $item->pin = 'pinned';
+            $item->save();
+        } else {
+            $item->pin = null;
+            $item->save();
+        }
+
+        return response()->json(['message' => 'OK', 'status' => $item->pin]);
+    }    
 }

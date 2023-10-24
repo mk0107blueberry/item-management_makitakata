@@ -53,19 +53,20 @@
             </div>
         </div>
 
-        <!-- nullのときは「ピン留めする」ボタン、pinnedのときは「ピン留めを外す」ボタンに表示を変えたい -->
-        <form class="pinAction">
+        <form method="post" action="{{ route('detail.pin', ['id'=>$item->id]) }}">
             @csrf
-            @isset($item->pin)
-            <div class="text-center">
-            <button type="button" id="pinButton" class="btn btn-primary">ピン留めをはずす</button>
-            </div>
-            @else
-            <div class="text-center">
-            <button type="button" id="pinButton" class="btn btn-outline-primary">ピン留めする</button>
-            </div>
-            @endisset
+            @method('patch')
+        @isset($item->pin)
+        <div class="text-center">
+            <button class="btn btn-primary">ピン留めを外す</button>
+        </div>
+        @else
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-primary">ピン留めする</button>
+        </div>
+        @endisset
         </form>
+
     </div>
 @stop
 
@@ -73,45 +74,4 @@
 @stop
 
 @section('js')
-    <script>
-    $(function() {
-        $('#pinButton').click(function() {  //id="pinButton"をクリックした時に発動
-            $.ajax({
-                headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                },
-
-                url     :   '{{ route('detail.pin', ['id'=>$item->id]) }}"',  //formのaction要素を参照
-                type    :   'post',  //formのmethod要素を参照
-                // data    :   form.serialize(),     //formで送信している内容を送る
-            })
-
-            //通信が成功した時
-            .done((data)=>{
-                //何か処理
-                console.log('成功です');
-                console.log(data);
-                console.log(data.status);
-                console.log($(this));
-                if(data.status === null) {
-                    console.log('nullです');
-                    $(this).text('ピン留めする');
-                    $(this).removeClass('btn-primary');
-                    $(this).addClass('btn btn-outline-primary');
-                } else if(data.status === 'pinned') {
-                    console.log('pinnedです');
-                    $(this).text('ピン留めをはずす');
-                    $(this).removeClass('btn-outline-primary');
-                    $(this).addClass('btn btn-primary');
-                }
-            })
-            //通信が失敗したとき
-            .fail((error)=>{
-                //何か処理
-                console.log('失敗です');
-                alert('ファイルの取得に失敗しました。');
-            })
-        })
-    });
-    </script>
 @stop
