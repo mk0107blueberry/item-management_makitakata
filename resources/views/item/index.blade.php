@@ -39,7 +39,18 @@
                         <tbody>
                             @foreach ($items as $item)
                                 <tr>        
-                                    <td>{{ $item->pin }}</td>
+                                    <form class="pinAction">
+                                    @csrf
+                                        <td>
+                                            <label class="form-check text-center">
+                                                @if ($item->pin === null)
+                                                <input class="form-check-input position-static pin-toggle" type="checkbox" data-item-id="{{ $item->id }}">
+                                                @elseif ($item->pin === "pinned")
+                                                <input class="form-check-input position-static pin-toggle" type="checkbox" data-item-id="{{ $item->id }}" checked="checked">
+                                                @endif
+                                            </label>
+                                        </td>
+                                    </form>
                                     <td>{{ $item->category->name }}</td>
                                     <td><a href="{{ route('detail', ['id'=>$item->id]) }}">{{ $item->name }}</a></td>
                                     <td>{{ $item->address }}</td>
@@ -58,4 +69,27 @@
 @stop
 
 @section('js')
+    <script>
+    $('.pin-toggle').click(function() {
+        const itemId = $(this).data('item-id');
+        console.log(itemId);
+
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: '{{ route('index.pin') }}', // 適切なルートを設定
+            type: 'POST',
+            data: {
+                itemId: itemId,
+            },
+            success: function(data) {
+                console.log('成功です。');
+            },
+            error: function(error) {
+                alert('ファイルの取得に失敗しました。');
+            }
+        });
+    });
+    </script>
 @stop

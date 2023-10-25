@@ -26,6 +26,9 @@ Route::prefix('items')->group(function () {
     Route::get('/', [App\Http\Controllers\ItemController::class, 'index']);
     Route::get('/add', [App\Http\Controllers\ItemController::class, 'add']);
     Route::post('/add', [App\Http\Controllers\ItemController::class, 'add']);
+
+    // 詳細ピン留めON/OFF
+    Route::post('/', [App\Http\Controllers\ItemController::class, 'pinIndex'])->name('index.pin');
 });
 
 // 詳細、編集、削除

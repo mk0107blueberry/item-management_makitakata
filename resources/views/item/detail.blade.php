@@ -81,7 +81,7 @@
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                 },
 
-                url     :   '{{ route('detail.pin', ['id'=>$item->id]) }}"',  //formのaction要素を参照
+                url     :   '{{ route('detail.pin', ['id'=>$item->id]) }}',  //formのaction要素を参照
                 type    :   'post',  //formのmethod要素を参照
                 // data    :   form.serialize(),     //formで送信している内容を送る
             })

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $items = Item::orderBy('address')
+        ->where('user_id', auth()->id())
+        ->where('pin', 'pinned')
+        ->get();
+        return view('home', compact('items'));
     }
 }

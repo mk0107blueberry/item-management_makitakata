@@ -162,11 +162,29 @@ class ItemController extends Controller
     }
 
     /**
-     * ピン留め ON/OFF
+     * ピン留め ON/OFF：詳細画面
      */
     public function pin($id)
     {
         $item = Item::find($id);
+
+        if($item->pin === null) {
+            $item->pin = 'pinned';
+            $item->save();
+        } else {
+            $item->pin = null;
+            $item->save();
+        }
+
+        return response()->json(['message' => 'OK', 'status' => $item->pin]);
+    }    
+
+    /**
+     * ピン留め ON/OFF：一覧画面
+     */
+    public function pinIndex(Request $request)
+    {
+        $item = Item::find($request->itemId);
 
         if($item->pin === null) {
             $item->pin = 'pinned';
