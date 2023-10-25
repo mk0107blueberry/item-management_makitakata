@@ -15,7 +15,7 @@ return [
     */
 
     // 'title' => '商品管理',
-    'title' => '飲食店管理',
+    'title' => 'MOGUTION',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -65,7 +65,7 @@ return [
     */
 
     // 'logo' => '<b>商品管理</b>',
-    'logo' => '<b>飲食店管理</b>',
+    'logo' => '<b>MOGUTION</b>',
     // 'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img' => 'vendor/adminlte/dist/img/restaurant_white.png',
     // 'logo_img_class' => 'brand-image img-circle elevation-3',
@@ -73,7 +73,7 @@ return [
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     // 'logo_img_alt' => '商品管理',
-    'logo_img_alt' => '飲食店管理',
+    'logo_img_alt' => 'MOGUTION',
 
     /*
     |--------------------------------------------------------------------------

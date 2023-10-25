@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'MOGUTION')
 
 @section('content_header')
     <h1>ピン留め中の飲食店🍽</h1>
