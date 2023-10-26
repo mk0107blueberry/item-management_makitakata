@@ -30,4 +30,22 @@ class HomeController extends Controller
         ->get();
         return view('home', compact('items'));
     }
+
+    /**
+     * ピン留め ON/OFF：ダッシュボード
+     */
+    public function pinIndex(Request $request)
+    {
+        $item = Item::find($request->itemId);
+
+        if($item->pin === null) {
+            $item->pin = 'pinned';
+            $item->save();
+        } else {
+            $item->pin = null;
+            $item->save();
+        }
+
+        return response()->json(['message' => 'OK', 'status' => $item->pin]);
+    }    
 }

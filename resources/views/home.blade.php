@@ -3,7 +3,7 @@
 @section('title', 'MOGUTION')
 
 @section('content_header')
-    <h1>ピン留め中の飲食店🍽</h1>
+    <h1>📌ピン留めアイテム</h1>
 @stop
 
 @section('content')
@@ -14,6 +14,18 @@
                     @foreach ($items as $item)
                     <div class="col">
                         <div class="card shadow-sm">
+
+                            <form class="pinAction">
+                            @csrf
+                            <label class="form-check px-4">
+                                @if ($item->pin === null)
+                                <input class="form-check-input position-static pin-toggle" type="checkbox" data-item-id="{{ $item->id }}">
+                                @elseif ($item->pin === "pinned")
+                                <input class="form-check-input position-static pin-toggle" type="checkbox" data-item-id="{{ $item->id }}" checked="checked">
+                                @endif
+                            </label>
+                            </form>
+
                             <a href="{{ route('detail',['id'=>$item->id]) }}">
                                 @isset ($item->image)
                                 <img src="{{ $item->image }}" class="bd-placeholder-img card-img-top" alt="..." height="180">
@@ -25,8 +37,6 @@
                             <div class="card-body text-center text-wrap">
                                 <h1 class="card-title fw-bold fs-5">{{ $item->name }}</h1>
                                 <h2 class="card-title">{{ $item->category->name }}</h2>
-                                <p class="card-title">{{ $item->genre }}</p>
-                                <p class="card-title">{{ $item->released_year }}</p>
                             </div>
                         </div>
                     </div>
@@ -36,7 +46,7 @@
         </div>
         @else
         <div class="no-result text-center">
-            <h4>一致する検索結果はありませんでした</h4>
+            <h4>ピン留めアイテムはありません</h4>
         </div>
     @endif
 @stop
@@ -46,5 +56,28 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <!-- <script> console.log('Hi!'); </script> -->
+    <script>
+    $('.pin-toggle').click(function() {
+        const itemId = $(this).data('item-id');
+        console.log(itemId);
+
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: '{{ route('index.pin') }}', // 適切なルートを設定
+            type: 'POST',
+            data: {
+                itemId: itemId,
+            },
+            success: function(data) {
+                console.log('成功です。');
+            },
+            error: function(error) {
+                alert('ファイルの取得に失敗しました。');
+            }
+        });
+    });
+    </script>
 @stop
