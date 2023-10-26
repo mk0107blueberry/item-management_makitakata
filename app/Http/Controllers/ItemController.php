@@ -26,13 +26,25 @@ class ItemController extends Controller
     /**
      * 飲食店一覧
      */
-    public function index()
+    public function index(Request $request)
     {
-        // 飲食店一覧取得
-        $items = Item::orderBy('address')
-        ->where('user_id', auth()->id())
-        ->get();
-        return view('item.index', compact('items'));
+        $keyword = $request->keyword;
+        // 検索ワードがある場合
+        if (isset($request->keyword)) {
+            $items = Item::orderBy('address')
+                ->where('user_id', auth()->id())
+                ->where('name', 'LIKE', "%$request->keyword%")
+                ->orWhere('address', 'LIKE', "%$request->keyword%")
+                ->orWhere('tel', 'LIKE', "%$request->keyword%")
+                ->paginate(10);
+        } else {
+            // 飲食店一覧取得
+            $items = Item::orderBy('address')
+            ->where('user_id', auth()->id())
+            ->paginate(10);
+        }
+
+        return view('item.index', compact('items', 'keyword'));
     }
 
     /**
