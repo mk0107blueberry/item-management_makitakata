@@ -19,6 +19,8 @@
     @elseif(session('delete-message'))
     <div class="alert alert-danger">{{session('delete-message')}}</div>
     @endif
+
+    @if (count($items) > 0)
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -71,8 +73,14 @@
         </div>
     </div>
 
+    @else
+    <div class="no-result text-center">
+        <h4>一致する検索結果はありませんでした</h4>
+    </div>
+    @endif
+
     <div class="main-pagination">
-            {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
+        {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
     </div>
 @stop
 
