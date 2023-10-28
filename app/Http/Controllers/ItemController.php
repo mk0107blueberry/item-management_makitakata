@@ -32,11 +32,13 @@ class ItemController extends Controller
         // 検索ワードがある場合
         if (isset($request->keyword)) {
             $items = Item::orderBy('address')
-                ->where('user_id', auth()->id())
-                ->where('name', 'LIKE', "%$request->keyword%")
-                ->orWhere('address', 'LIKE', "%$request->keyword%")
-                ->orWhere('tel', 'LIKE', "%$request->keyword%")
-                ->paginate(10);
+            ->where('user_id', auth()->id())
+            ->where(function($query) use ($request) {
+                $query->where('name', 'LIKE', "%$request->keyword%")
+                      ->orWhere('address', 'LIKE', "%$request->keyword%")
+                      ->orWhere('tel', 'LIKE', "%$request->keyword%");
+            })
+            ->paginate(10);
         } else {
             // 飲食店一覧取得
             $items = Item::orderBy('address')
@@ -207,5 +209,33 @@ class ItemController extends Controller
         }
 
         return response()->json(['message' => 'OK', 'status' => $item->pin]);
-    }    
+    }
+
+    /**
+     * カテゴリー毎の一覧
+     */
+    public function category(Request $request, $category_id)
+    {
+        $keyword = $request->keyword;
+        // 検索ワードがある場合
+        if (isset($request->keyword)) {
+            $items = Item::orderBy('address')
+                ->where('user_id', auth()->id())
+                ->where('category_id', $category_id)
+                ->where(function($query) use ($request) {
+                    $query->where('name', 'LIKE', "%$request->keyword%")
+                          ->orWhere('address', 'LIKE', "%$request->keyword%")
+                          ->orWhere('tel', 'LIKE', "%$request->keyword%");
+                })
+                ->paginate(10);
+        } else {
+            // 飲食店一覧取得
+            $items = Item::orderBy('address')
+            ->where('user_id', auth()->id())
+            ->where('category_id', $category_id)
+            ->paginate(10);
+        }
+
+        return view('item.category'.$category_id, compact('items', 'keyword'));
+    }
 }

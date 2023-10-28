@@ -31,6 +31,9 @@ Route::prefix('items')->group(function () {
 
     // 詳細ピン留めON/OFF
     Route::post('/', [App\Http\Controllers\ItemController::class, 'pinIndex'])->name('index.pin');
+
+    // カテゴリーごとの一覧
+    Route::get('/category/{category_id}', [App\Http\Controllers\ItemController::class, 'category'])->name('category');
 });
 
 // 詳細、編集、削除
