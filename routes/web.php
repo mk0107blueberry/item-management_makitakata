@@ -42,6 +42,7 @@ Route::prefix('detail')->group(function () {
     
     // 詳細ピン留めON/OFF
     Route::post('/{id}', [App\Http\Controllers\ItemController::class, 'pin'])->name('detail.pin');
+    Route::patch('/{id}', [App\Http\Controllers\ItemController::class, 'memoUpdate'])->name('detail.memoUpdate');
     
     Route::get('/{id}/edit', [App\Http\Controllers\ItemController::class, 'edit'])->name('detail.edit');
     Route::patch('/{id}/edit', [App\Http\Controllers\ItemController::class, 'update'])->name('detail.update');

@@ -41,13 +41,21 @@
                                 @endisset
                             </ul>
                         </div>
-                        <div class="card shadow-sm px-5">
+                        <!-- <div class="card shadow-sm px-5">
                             @isset ($item->memo)
                             <p class="card-text py-5">{{ $item->memo }}</p>
                             @else
                             <p class="card-text py-5 text-secondary">メモはありません</p>
                             @endisset
+                        </div> -->
+                        <form class="memoEdit">
+                        @csrf
+                        <div class="form-group mx-5 memo" data-id="{{ $item->id }}">
+                            <button type="button" class="update btn btn-outline-dark mx-2">📝memo更新</button>
+                            <textarea class="form-control my-2" id="exampleFormControlTextarea1" rows="3">{{ $item->memo }}</textarea>
+                            <!-- <button type="button" class="update btn btn-outline-dark">メモを更新する</button> -->
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -74,6 +82,29 @@
 
 @section('js')
     <script>
+    // メモ更新
+    $(function() {
+        $('.update').click(function() {
+            const id = $(this).parent().data('id');
+            const text = $(this).next().val();
+            $.ajax({
+
+                headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+
+                type: 'PATCH',
+                url: '{{ route('detail.memoUpdate', ['id'=>$item->id]) }}',
+                data: { text: text },
+                success: function(data) {
+                    console.log('成功です');
+                    alert('メモが更新されました');
+                }
+            });
+        });
+});
+
+    // ピン留め
     $(function() {
         $('#pinButton').click(function() {  //id="pinButton"をクリックした時に発動
             $.ajax({

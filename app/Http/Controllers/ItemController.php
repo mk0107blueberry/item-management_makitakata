@@ -111,6 +111,17 @@ class ItemController extends Controller
     }
 
     /**
+     * 店舗詳細 メモ更新
+     */
+    public function memoUpdate(Request $request, $id)
+    {
+        $item = Item::find($id);
+        $item->memo = $request->text;
+        $item->save();
+        return response()->json(['message' => 'Memo updated']);
+    }
+
+    /**
      * 店舗編集画面
      */
     public function edit($id)
