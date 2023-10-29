@@ -144,29 +144,31 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $item = Item::find($id);
+        $item = Item::find($id);
 
-            //POSTされた画像ファイルデータ取得しbase64でエンコードする
-            $image = $request->image;
-            if (!empty($image)) {
-                $image = "data:image/png;base64,". base64_encode(file_get_contents($request->image->getRealPath()));
-            }
-
-            $this->validate($request, [
-                'name' => 'required|max:100',
-                'category' => 'required',
-                'address' => 'nullable|max:255',
-                'tel' => 'nullable|max:30',
-                'ex_link' => 'nullable|url',
-            ]);
-
-            $item->name = $request->name;
-            $item->category_id = $request->category;
-            $item->address = $request->address;
-            $item->tel = $request->tel;
-            $item->ex_link = $request->ex_link;
-            $item->memo = $request->memo;
-            $item->image = $image;
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'category' => 'required',
+            'address' => 'nullable|max:255',
+            'tel' => 'nullable|max:30',
+            'ex_link' => 'nullable|url',
+        ]);
+    
+        $item->name = $request->name;
+        $item->category_id = $request->category;
+        $item->address = $request->address;
+        $item->tel = $request->tel;
+        $item->ex_link = $request->ex_link;
+        $item->memo = $request->memo;
+    
+        if ($request->hasFile('image')) {
+            // 新しい画像を64エンコードしてデータベースに保存
+            $imageData = "data:image/png;base64," . base64_encode(file_get_contents($request->file('image')->getRealPath()));
+            $item->image = $imageData;
+        } elseif ($request->input('delete_image') == 'on') {
+            // チェックボックスがチェックされている場合、元の画像を削除
+            $item->image = null;
+        }
             $item->save();
 
             $request->session()->flash('message', 'お店の情報を更新しました');
