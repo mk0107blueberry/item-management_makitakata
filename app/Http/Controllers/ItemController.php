@@ -147,11 +147,13 @@ class ItemController extends Controller
         $item = Item::find($id);
 
         $this->validate($request, [
-            'name' => 'required|max:100',
+            'name' => 'required|max:30',
             'category' => 'required',
-            'address' => 'nullable|max:255',
-            'tel' => 'nullable|max:30',
+            'address' => 'nullable|max:50',
+            'tel' => 'nullable|regex:/^[0-9-]+$/',
             'ex_link' => 'nullable|url',
+            'memo' => 'nullable|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
         $item->name = $request->name;
