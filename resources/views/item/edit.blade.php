@@ -35,11 +35,11 @@
                 @csrf
                 @method('patch')
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">店名<span class="font-weight-light"> *必須</span></label>
+                        <label for="exampleFormControlInput1">店名<span class="font-weight-light" style="font-size: 0.8rem"> *必須</span></label>
                         <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="お店の名前を入力" value="{{ old(('name'), $item->name) }}">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">カテゴリ<span class="font-weight-light"> *選択必須</span></label>
+                        <label for="exampleFormControlSelect1">カテゴリ<span class="font-weight-light" style="font-size: 0.8rem"> *選択必須</span></label>
                         <select class="form-control" name="category" id="exampleFormControlSelect1">
                         @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
@@ -53,7 +53,7 @@
                         <input type="text" name="address" class="form-control" id="exampleFormControlInput1" placeholder="住所を入力" value="{{ old(('address'), $item->address) }}">                    
                     </div>
                     <div class="form-group">
-                    <label for="exampleFormControlInput1">電話番号</label>
+                    <label for="exampleFormControlInput1">電話番号<span class="font-weight-light" style="font-size: 0.8rem">*数字とハイフンのみ</span></label>
                         <input type="text" name="tel" class="form-control" id="exampleFormControlInput1" placeholder="TELを入力" value="{{ old(('tel'), $item->tel) }}">                    
                     </div>
                     <div class="form-group">
