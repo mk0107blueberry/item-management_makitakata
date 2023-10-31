@@ -50,10 +50,24 @@
                         <label for="exampleFormControlTextarea1">フリーメモ</label>
                         <textarea class="form-control" name="memo" id="exampleFormControlTextarea1" rows="3">{{ old('memo') }}</textarea>
                     </div>
+
                     <div class="form-group">
-                        <label for="exampleFormControlFile1">画像の登録</label>
-                        <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1">
+                        <label for="file">画像をアップロード</label>
+	                    <div id="file" class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fileInput" accept="image/*" name="image">
+                                <label class="custom-file-label" for="fileInput" data-browse="参照">画像ファイルを選択...</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary reset">取消</button>
+                            </div>
+	                    </div>
+
+                        <div id="preview" class="mt-2">
+                            <!-- プレビュー画像表示 -->
+                        </div>
                     </div>
+                    
                     <div class="submit-button text-center">
                         <button type="submit" class="btn btn-primary">登録</button>
                     </div>
@@ -64,7 +78,45 @@
 @stop
 
 @section('css')
+    <style>
+        .custom-file {
+        max-width: 30rem;
+        overflow: hidden;
+        }
+    </style>
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            // ファイル選択時の処理
+            $('#fileInput').on('change', handleFileSelect);
+
+            function handleFileSelect(evt) {
+                const file = evt.target.files[0];
+
+                if (file && file.type.match('image.*')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const $html = [
+                            '<div>',
+                            '<img class="img-thumbnail" src="', e.target.result, '" title="', escape(file.name), '" style="max-height: 200px;" />',
+                            '</div>'
+                        ].join('');
+                        
+                        $('#preview').html($html);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // ファイルの取消
+            $('.reset').click(function() {
+                $('#fileInput').val(''); // ファイル選択をクリア
+                $('#preview').html(''); // プレビューをクリア
+            });
+        });
+    </script>
 @stop
