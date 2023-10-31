@@ -74,6 +74,36 @@
     </div>
 
     @else
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">飲食店一覧</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-append">
+                                <a href="{{ url('items/add') }}" class="btn btn-default">お店の新規登録</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>ピン留め</th>
+                                <th>カテゴリ</th>
+                                <th>店名</th>
+                                <th>住所</th>
+                                <th>TEL</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="no-result text-center">
         <h4>一致する検索結果はありませんでした</h4>
     </div>
