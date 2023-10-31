@@ -4,8 +4,8 @@
 
 @section('content_header')
     <div class="list-header d-flex justify-content-between">
-        <h1>飲食店一覧</h1>
-        <form class="d-flex" role="search" action="{{ route('items') }}" method="GET">
+        <h1>🍽洋食・西洋料理</h1>
+        <form class="d-flex" role="search" action="{{ route('category', ['category_id'=>3,]) }}" method="GET">
             @csrf
             <input class="form-control me-2 mx-1" type="search" name="keyword" placeholder="店名/住所/TEL" aria-label="Search">
             <button class="btn btn-outline-primary" type="submit">Search</button>

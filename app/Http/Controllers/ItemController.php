@@ -26,13 +26,27 @@ class ItemController extends Controller
     /**
      * 飲食店一覧
      */
-    public function index()
+    public function index(Request $request)
     {
-        // 飲食店一覧取得
-        $items = Item::orderBy('address')
-        ->where('user_id', auth()->id())
-        ->get();
-        return view('item.index', compact('items'));
+        $keyword = $request->keyword;
+        // 検索ワードがある場合
+        if (isset($request->keyword)) {
+            $items = Item::orderBy('address')
+            ->where('user_id', auth()->id())
+            ->where(function($query) use ($request) {
+                $query->where('name', 'LIKE', "%$request->keyword%")
+                      ->orWhere('address', 'LIKE', "%$request->keyword%")
+                      ->orWhere('tel', 'LIKE', "%$request->keyword%");
+            })
+            ->paginate(10);
+        } else {
+            // 飲食店一覧取得
+            $items = Item::orderBy('address')
+            ->where('user_id', auth()->id())
+            ->paginate(10);
+        }
+
+        return view('item.index', compact('items', 'keyword'));
     }
 
     /**
@@ -97,6 +111,17 @@ class ItemController extends Controller
     }
 
     /**
+     * 店舗詳細 メモ更新
+     */
+    public function memoUpdate(Request $request, $id)
+    {
+        $item = Item::find($id);
+        $item->memo = $request->text;
+        $item->save();
+        return response()->json(['message' => 'Memo updated']);
+    }
+
+    /**
      * 店舗編集画面
      */
     public function edit($id)
@@ -119,29 +144,33 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $item = Item::find($id);
+        $item = Item::find($id);
 
-            //POSTされた画像ファイルデータ取得しbase64でエンコードする
-            $image = $request->image;
-            if (!empty($image)) {
-                $image = "data:image/png;base64,". base64_encode(file_get_contents($request->image->getRealPath()));
-            }
-
-            $this->validate($request, [
-                'name' => 'required|max:100',
-                'category' => 'required',
-                'address' => 'nullable|max:255',
-                'tel' => 'nullable|max:30',
-                'ex_link' => 'nullable|url',
-            ]);
-
-            $item->name = $request->name;
-            $item->category_id = $request->category;
-            $item->address = $request->address;
-            $item->tel = $request->tel;
-            $item->ex_link = $request->ex_link;
-            $item->memo = $request->memo;
-            $item->image = $image;
+        $this->validate($request, [
+            'name' => 'required|max:30',
+            'category' => 'required',
+            'address' => 'nullable|max:50',
+            'tel' => 'nullable|regex:/^[0-9-]+$/',
+            'ex_link' => 'nullable|url',
+            'memo' => 'nullable|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        $item->name = $request->name;
+        $item->category_id = $request->category;
+        $item->address = $request->address;
+        $item->tel = $request->tel;
+        $item->ex_link = $request->ex_link;
+        $item->memo = $request->memo;
+    
+        if ($request->hasFile('image')) {
+            // 新しい画像を64エンコードしてデータベースに保存
+            $imageData = "data:image/png;base64," . base64_encode(file_get_contents($request->file('image')->getRealPath()));
+            $item->image = $imageData;
+        } elseif ($request->input('delete_image') == 'on') {
+            // チェックボックスがチェックされている場合、元の画像を削除
+            $item->image = null;
+        }
             $item->save();
 
             $request->session()->flash('message', 'お店の情報を更新しました');
@@ -195,5 +224,33 @@ class ItemController extends Controller
         }
 
         return response()->json(['message' => 'OK', 'status' => $item->pin]);
-    }    
+    }
+
+    /**
+     * カテゴリー毎の一覧
+     */
+    public function category(Request $request, $category_id)
+    {
+        $keyword = $request->keyword;
+        // 検索ワードがある場合
+        if (isset($request->keyword)) {
+            $items = Item::orderBy('address')
+                ->where('user_id', auth()->id())
+                ->where('category_id', $category_id)
+                ->where(function($query) use ($request) {
+                    $query->where('name', 'LIKE', "%$request->keyword%")
+                          ->orWhere('address', 'LIKE', "%$request->keyword%")
+                          ->orWhere('tel', 'LIKE', "%$request->keyword%");
+                })
+                ->paginate(10);
+        } else {
+            // 飲食店一覧取得
+            $items = Item::orderBy('address')
+            ->where('user_id', auth()->id())
+            ->where('category_id', $category_id)
+            ->paginate(10);
+        }
+
+        return view('item.category'.$category_id, compact('items', 'keyword'));
+    }
 }

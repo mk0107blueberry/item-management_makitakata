@@ -20,15 +20,20 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// ホーム画面 : 詳細ピン留めON/OFF
+Route::post('/', [App\Http\Controllers\HomeController::class, 'pinIndex'])->name('home.pin');
 
 // 一覧、登録
 Route::prefix('items')->group(function () {
-    Route::get('/', [App\Http\Controllers\ItemController::class, 'index']);
+    Route::get('/', [App\Http\Controllers\ItemController::class, 'index'])->name('items');
     Route::get('/add', [App\Http\Controllers\ItemController::class, 'add']);
     Route::post('/add', [App\Http\Controllers\ItemController::class, 'add']);
 
     // 詳細ピン留めON/OFF
     Route::post('/', [App\Http\Controllers\ItemController::class, 'pinIndex'])->name('index.pin');
+
+    // カテゴリーごとの一覧
+    Route::get('/category/{category_id}', [App\Http\Controllers\ItemController::class, 'category'])->name('category');
 });
 
 // 詳細、編集、削除
@@ -37,6 +42,7 @@ Route::prefix('detail')->group(function () {
     
     // 詳細ピン留めON/OFF
     Route::post('/{id}', [App\Http\Controllers\ItemController::class, 'pin'])->name('detail.pin');
+    Route::patch('/{id}', [App\Http\Controllers\ItemController::class, 'memoUpdate'])->name('detail.memoUpdate');
     
     Route::get('/{id}/edit', [App\Http\Controllers\ItemController::class, 'edit'])->name('detail.edit');
     Route::patch('/{id}/edit', [App\Http\Controllers\ItemController::class, 'update'])->name('detail.update');
