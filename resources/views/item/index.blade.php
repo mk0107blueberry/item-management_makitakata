@@ -39,7 +39,7 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>ピン留め</th>
+                                <th>📌ピン留め</th>
                                 <th>カテゴリ</th>
                                 <th>店名</th>
                                 <th>住所</th>
@@ -92,7 +92,7 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>ピン留め</th>
+                                <th>📌ピン留め</th>
                                 <th>カテゴリ</th>
                                 <th>店名</th>
                                 <th>住所</th>
