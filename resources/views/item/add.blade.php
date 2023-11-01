@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', '新規登録')
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 @section('content_header')
     <h1>お店の新規登録</h1>

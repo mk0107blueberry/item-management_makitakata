@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', '飲食店一覧')
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 @section('content_header')
     <div class="list-header d-flex justify-content-between">

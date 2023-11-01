@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'MOGUTION')
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 @section('content_header')
     <h1>📌ピン留めアイテム</h1>
