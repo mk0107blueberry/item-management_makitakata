@@ -32,7 +32,7 @@ class HomeController extends Controller
     }
 
     /**
-     * ピン留め ON/OFF：ダッシュボード
+     * 個別ピン留め ON/OFF：ダッシュボード
      */
     public function pinIndex(Request $request)
     {
@@ -48,4 +48,26 @@ class HomeController extends Controller
 
         return response()->json(['message' => 'OK', 'status' => $item->pin]);
     }    
+
+    /**
+     * 一括ピン留め ON/OFF：ダッシュボード
+     */
+    public function pinItems(Request $request)
+{
+    $itemIds = $request->input('itemIds');
+
+    foreach ($itemIds as $itemId) {
+        $item = Item::find($itemId);
+
+        if ($item->pin === null) {
+            $item->pin = 'pinned';
+            $item->save();
+        } else {
+            $item->pin = null;
+            $item->save();
+        }
+    }
+
+    return response()->json(['message' => 'OK']);
+    }
 }

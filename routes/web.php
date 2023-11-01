@@ -20,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// ホーム画面 : 詳細ピン留めON/OFF
+// ホーム画面 : 個別ピン留めON/OFF
 Route::post('/', [App\Http\Controllers\HomeController::class, 'pinIndex'])->name('home.pin');
+// ホーム画面 : 一括ピン留めON/OFF
+Route::put('/', [App\Http\Controllers\HomeController::class, 'pinItems'])->name('home.pins');
 
 // 一覧、登録
 Route::prefix('items')->group(function () {
