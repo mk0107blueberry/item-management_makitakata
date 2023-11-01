@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', '店舗編集')
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 @section('content_header')
     <div class="detail-header clearfix">

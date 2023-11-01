@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'MOGUTION')
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 @section('content_header')
     <h1>📌ピン留めアイテム</h1>
@@ -13,7 +14,7 @@
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                     @foreach ($items as $item)
                     <div class="col">
-                        <div class="card shadow-sm">
+                        <div class="card shadow-sm" style="background-color: #d4dcda;">
 
                             <form class="pinAction">
                             @csrf
@@ -23,6 +24,7 @@
                                 @elseif ($item->pin === "pinned")
                                 <input class="form-check-input position-static pin-toggle" type="checkbox" data-item-id="{{ $item->id }}" checked="checked">
                                 @endif
+                                📌
                             </label>
                             </form>
 
@@ -30,13 +32,15 @@
                                 @isset ($item->image)
                                 <img src="{{ $item->image }}" class="bd-placeholder-img card-img-top" alt="..." height="180">
                                 @else
-                                <!-- <img src="{{ config('default_image.default_image') }}" class="card-img-top" alt="..."> -->
                                 <img src="{{ config('default_image.default_image') }}" class="bd-placeholder-img card-img-top" alt="..." height="180">
                                 @endisset
                             </a>
-                            <div class="card-body text-center text-wrap">
-                                <h1 class="card-title fw-bold fs-5">{{ $item->name }}</h1>
-                                <h2 class="card-title">{{ $item->category->name }}</h2>
+                            <span class="badge badge-light my-2 mx-2" style="width: 50%">{{ $item->category->name }}</span>
+                                <!-- <p class="card-title fw-bold fs-5">【{{ $item->category->name }}】</p> -->
+                            <div class="card-body text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;">
+                                <p class="card-text" style="flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 1em; white-space: nowrap;">
+                                {{ $item->name }}
+                                </p>
                             </div>
                         </div>
                     </div>
