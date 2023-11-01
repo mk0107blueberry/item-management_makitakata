@@ -4,8 +4,32 @@
 
 @section('content_header')
     <div class="list-header d-flex justify-content-between">
+        @if ($category_id == 1)
+        <h1>🍺居酒屋・バー</h1>
+        @elseif ($category_id == 2)
         <h1>🍣和食</h1>
-        <form class="d-flex" role="search" action="{{ route('category', ['category_id'=>2,]) }}" method="GET">
+        @elseif ($category_id == 3)
+        <h1>🍽洋食・西洋料理</h1>
+        @elseif ($category_id == 4)
+        <h1>🐲中華料理</h1>
+        @elseif ($category_id == 5)
+        <h1>🦐アジア・エスニック</h1>
+        @elseif ($category_id == 6)
+        <h1>🍛カレー</h1>
+        @elseif ($category_id == 7)
+        <h1>🥩焼肉・ホルモン</h1>
+        @elseif ($category_id == 8)
+        <h1>🍜ラーメン・つけ麺</h1>
+        @elseif ($category_id == 9)
+        <h1>☕カフェ・喫茶店</h1>
+        @elseif ($category_id == 10)
+        <h1>🍰スイーツ</h1>
+        @elseif ($category_id == 11)
+        <h1>🥐パン</h1>
+        @elseif ($category_id == 12)
+        <h1>🍲その他</h1>
+        @endif
+        <form class="d-flex" role="search" action="{{ route('category', [$category_id,]) }}" method="GET">
             @csrf
             <input class="form-control me-2 mx-1" type="search" name="keyword" placeholder="店名/住所/TEL" aria-label="Search">
             <button class="btn btn-outline-primary" type="submit">Search</button>

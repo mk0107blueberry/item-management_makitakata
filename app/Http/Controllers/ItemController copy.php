@@ -251,6 +251,6 @@ class ItemController extends Controller
             ->paginate(10);
         }
 
-        return view('item.category', compact('items', 'keyword', 'category_id'));
+        return view('item.category'.$category_id, compact('items', 'keyword'));
     }
 }
