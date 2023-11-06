@@ -27,7 +27,8 @@ class HomeController extends Controller
         $items = Item::orderBy('address')
         ->where('user_id', auth()->id())
         ->where('pin', 'pinned')
-        ->get();
+        // ->get();
+        ->paginate(8);
         return view('home', compact('items'));
     }
 

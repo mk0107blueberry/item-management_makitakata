@@ -35,7 +35,7 @@
                             </label>
                             </form>
 
-                            <a href="{{ route('detail',['id'=>$item->id]) }}">
+                            <a href="{{ route('detail',['id'=>$item->id]) }}" target="_blank">
                                 @isset ($item->image)
                                 <img src="{{ $item->image }}" class="bd-placeholder-img card-img-top" alt="..." height="180">
                                 @else
@@ -59,6 +59,10 @@
             <h4>ピン留めアイテムはありません</h4>
         </div>
     @endif
+
+    <div class="main-pagination">
+        {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
+    </div>
 @stop
 
 @section('css')
