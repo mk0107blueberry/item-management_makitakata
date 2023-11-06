@@ -62,7 +62,7 @@
                                         </td>
                                     </form>
                                     <td>{{ $item->category->name }}</td>
-                                    <td><a href="{{ route('detail', ['id'=>$item->id]) }}">{{ $item->name }}</a></td>
+                                    <td><a href="{{ route('detail', ['id'=>$item->id]) }}"  target="_blank">{{ $item->name }}</a></td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->tel }}</td>
                                 </tr>
