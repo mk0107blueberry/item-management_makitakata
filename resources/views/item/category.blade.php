@@ -63,7 +63,7 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>📌ピン留め</th>
+                                <th class="text-center">📌</th>
                                 <th>カテゴリ</th>
                                 <th>店名</th>
                                 <th>住所</th>
@@ -130,7 +130,7 @@
     </div>
 
     <div class="no-result text-center">
-        <h4>一致する検索結果はありませんでした</h4>
+        <h4>一致する結果はありませんでした</h4>
     </div>
     @endif
 
